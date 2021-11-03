@@ -1,6 +1,6 @@
 package com.wizer.wizerbookapp.init;
 
-import com.wizer.wizerbookapp.dto.RoleDTO;
+import com.wizer.wizerbookapp.dto.input.RoleDTO;
 import com.wizer.wizerbookapp.enums.RoleType;
 import com.wizer.wizerbookapp.model.Role;
 import com.wizer.wizerbookapp.repository.RoleRepository;

@@ -1,4 +1,4 @@
-package com.wizer.wizerbookapp.dto;
+package com.wizer.wizerbookapp.dto.input;
 
 import com.wizer.wizerbookapp.enums.RoleType;
 import lombok.AllArgsConstructor;
