@@ -16,12 +16,12 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "book_categories",
+@Table(name = "books",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "name")
         }
 )
-public class BookCategory extends BaseModel {
+public class Book extends BaseModel{
 
     @NotBlank
     @Size(min = 2)
@@ -29,4 +29,5 @@ public class BookCategory extends BaseModel {
 
     private String description;
 
+    private int quantity;
 }
