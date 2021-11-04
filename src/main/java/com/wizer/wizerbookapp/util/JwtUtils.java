@@ -33,7 +33,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String getUserNameFromJwtToken(String token) {
+    public String getUserEmailFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -64,5 +64,9 @@ public class JwtUtils {
         }
 
         return null;
+    }
+
+    public String parseJwt(String rawToken) {
+        return rawToken.startsWith("Bearer ") ? rawToken.substring(7) : null;
     }
 }

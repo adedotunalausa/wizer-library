@@ -55,4 +55,9 @@ public class LibraryController extends Controller {
         return responseWithUpdatedHttpStatus(bookService.addBookToCategory(bookId, categoryId));
     }
 
+    @PatchMapping("/book/favorite/{bookId}")
+    public BasicResponseDTO addBookToFavorite(@PathVariable(name = "bookId") Long bookId, @RequestHeader(name = "Authorization") String token) {
+        return responseWithUpdatedHttpStatus(bookService.addBookToFavorite(bookId, token));
+    }
+
 }

@@ -28,7 +28,7 @@ public class BookCategory extends BaseModel {
 
     private String description;
 
-    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL, mappedBy = "categoryId")
+    @OneToMany(targetEntity = Book.class, cascade = CascadeType.PERSIST, mappedBy = "categoryId")
     private Set<Book> books;
 
 }

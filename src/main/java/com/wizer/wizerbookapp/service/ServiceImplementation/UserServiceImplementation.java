@@ -45,11 +45,11 @@ public class UserServiceImplementation implements UserService {
     public BasicResponseDTO registerUser(SignupDTO userDetails) {
 
         if (emailExists(userDetails.getEmail())) {
-            return new BasicResponseDTO(Status.PRECONDITION_FAILED, "Email is already in use");
+            return new BasicResponseDTO(Status.FAILED_VALIDATION, "Email is already in use");
         }
 
         if (usernameExists(userDetails.getUsername())) {
-            return new BasicResponseDTO(Status.PRECONDITION_FAILED, "Username is already taken");
+            return new BasicResponseDTO(Status.FAILED_VALIDATION, "Username is already taken");
         }
 
         User newUser = createUserObjectFromSignupInfo(userDetails);

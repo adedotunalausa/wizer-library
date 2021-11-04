@@ -6,9 +6,12 @@ import com.wizer.wizerbookapp.enums.Status;
 import com.wizer.wizerbookapp.exception.ResourceNotFoundException;
 import com.wizer.wizerbookapp.model.Book;
 import com.wizer.wizerbookapp.model.BookCategory;
+import com.wizer.wizerbookapp.model.User;
 import com.wizer.wizerbookapp.repository.BookCategoryRepository;
 import com.wizer.wizerbookapp.repository.BookRepository;
+import com.wizer.wizerbookapp.repository.UserRepository;
 import com.wizer.wizerbookapp.service.BookService;
+import com.wizer.wizerbookapp.util.JwtUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,7 +29,11 @@ public class BookServiceImplementation implements BookService {
 
     private final BookCategoryRepository bookCategoryRepository;
 
+    private final UserRepository userRepository;
+
     private final ModelMapper modelMapper;
+
+    private final JwtUtils jwtUtils;
 
     @Override
     public BasicResponseDTO addBook(BookInputDTO bookInputDTO) {
@@ -60,6 +67,26 @@ public class BookServiceImplementation implements BookService {
         return new BasicResponseDTO(Status.SUCCESS, updatedBook);
     }
 
+    @Override
+    public BasicResponseDTO addBookToFavorite(Long bookId, String token) {
+        String extractedToken = jwtUtils.parseJwt(token);
+        String userEmail = jwtUtils.getUserEmailFromJwtToken(extractedToken);
+        User currentUser = getUserByEmail(userEmail);
+        Book book = getBookById(bookId);
+        addBookToFavoriteForUserAndSave(currentUser, book);
+        return new BasicResponseDTO(Status.SUCCESS, "Successfully added book to favorite list");
+    }
+
+    private void addBookToFavoriteForUserAndSave(User currentUser, Book book) {
+        currentUser.getFavoriteBooks().add(book);
+        userRepository.save(currentUser);
+    }
+
+    private User getUserByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("Error: User not found"));
+    }
+
     private Book getBookById(Long bookId) {
         return bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Error: Book not found"));
@@ -68,17 +95,17 @@ public class BookServiceImplementation implements BookService {
     private Book updateBookCategory(Long bookId, Long categoryId) {
         Book book = getBookById(bookId);
         BookCategory category = getCategoryById(categoryId);
-        setCategoryIdForBook(book, category);
-        addBookToCategory(book, category);
+        setCategoryIdForBookAndSave(book, category);
+        addBookToCategoryAndSave(book, category);
         return book;
     }
 
-    private void setCategoryIdForBook(Book book, BookCategory category) {
+    private void setCategoryIdForBookAndSave(Book book, BookCategory category) {
         book.setCategoryId(category.getId());
         bookRepository.save(book);
     }
 
-    private void addBookToCategory(Book book, BookCategory category) {
+    private void addBookToCategoryAndSave(Book book, BookCategory category) {
         category.getBooks().add(book);
         bookCategoryRepository.save(category);
     }

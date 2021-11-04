@@ -13,4 +13,6 @@ public interface BookService {
 
     BasicResponseDTO addBookToCategory(Long bookId, Long categoryId);
 
+    BasicResponseDTO addBookToFavorite(Long bookId, String token);
+
 }

@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -34,6 +36,4 @@ public class Book extends BaseModel{
     @Column(name = "category_id")
     private Long categoryId;
 
-    @ManyToMany(mappedBy = "books")
-    private Set<User> users = new HashSet<>();
 }
