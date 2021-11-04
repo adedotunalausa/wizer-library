@@ -7,7 +7,7 @@ public interface BookCategoryService {
 
     BasicResponseDTO addCategory(CategoryInputDTO categoryInputDTO);
 
-    BasicResponseDTO editCategory(CategoryInputDTO categoryInputDTO, Long categoryId);
+    BasicResponseDTO updateCategory(CategoryInputDTO categoryInputDTO, Long categoryId);
 
     BasicResponseDTO getAllCategories();
 

@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -32,10 +33,10 @@ public class BookCategoryServiceImplementation implements BookCategoryService {
     }
 
     @Override
-    public BasicResponseDTO editCategory(CategoryInputDTO categoryInputDTO, Long categoryId) {
+    public BasicResponseDTO updateCategory(CategoryInputDTO categoryInputDTO, Long categoryId) {
         BookCategory bookCategory = getCategory(categoryId);
-        bookCategory.setName(categoryInputDTO.getName());
-        bookCategory.setDescription(categoryInputDTO.getDescription());
+        if (Objects.nonNull(categoryInputDTO.getName())) bookCategory.setName(categoryInputDTO.getName());
+        if (Objects.nonNull(categoryInputDTO.getDescription())) bookCategory.setDescription(categoryInputDTO.getDescription());
 
         bookCategoryRepository.save(bookCategory);
         log.info("Category successfully updated");

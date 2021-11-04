@@ -5,11 +5,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -23,11 +23,17 @@ import javax.validation.constraints.Size;
 )
 public class Book extends BaseModel{
 
-    @NotBlank
+    @NotBlank(message = "Book name cannot be blank")
     @Size(min = 2)
     private String name;
 
     private String description;
 
     private int quantity;
+
+    @Column(name = "category_id")
+    private Long categoryId;
+
+    @ManyToMany(mappedBy = "books")
+    private Set<User> users = new HashSet<>();
 }

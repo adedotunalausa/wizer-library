@@ -62,6 +62,12 @@ public class User extends BaseModel {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(	name = "user_favorite_books",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private Set<Book> favoriteBooks = new HashSet<>();
+
     public User(String username, String firstname, String lastname,
                 String gender, String email, String password) {
         this.username = username;
